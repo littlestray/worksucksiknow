@@ -1,3 +1,33 @@
-body{
+body {
     background-color: rgb(0, 0, 0);
+    color: white;
 }
+
+#clock {
+    font-family: 'Calligraffitti', cursive;
+    color: violet;
+    animation: rainbow 6s linear infinite alternate;
+}
+.marquee{
+    animation: scroll-left 10s linear infinite alternate;
+}
+
+@keyframes rainbow {
+    0% {color: hsl(0, 100%, 80%);   }
+    25% {color: hsl(90, 100%, 80%); }
+    50% {color: hsl(180, 100%, 80%);}
+    75% {color: hsl(270, 100%, 80%);}
+    100% {color: hsl(360, 100%, 80%);}
+}
+
+@keyframes scroll-left {
+    0% {
+        -moz-transform: translateX(110%);
+        -webkit-transform: translateX(110%);
+        transform: translateX(110%);
+    }
+    100% {
+        -moz-transform: translateX(-110%);
+        -webkit-transform: translateX(-110%);
+        transform: translateX(-110%);
+    }
