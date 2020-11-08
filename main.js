@@ -11,7 +11,7 @@ console.log(path)
 function init() {
     console.log("init")
     clock  = document.getElementById("clock")
-    editor = new Editor(document.getElementById("editor"), window.localStorage, path)
+    editor = new Editor(new Timer(clock), document.getElementById("editor"), window.localStorage, path)
     return window.requestAnimationFrame(gameLoop)
 }
 
