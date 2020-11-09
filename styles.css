@@ -17,6 +17,15 @@ body {
 .marquee {
     animation: scroll-left 10s linear infinite alternate;
 }
+.saved{
+    background-color: #b5ffb5;
+}
+.edit{
+    background-color: #fbffbe;
+}
+.changed{
+    background-color: #ffcbcb;
+}
 
 
 @keyframes rainbow {

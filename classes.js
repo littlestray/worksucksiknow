@@ -5,13 +5,26 @@ class Editor {
         this.path = path
 
         this.jsonText = dom.children.namedItem("jsonEditor")
+        
         // this.jsonText.value = "1200, hello\n1300, goodbye\n1400, noway"
 
         this.save = dom.children.namedItem("save")
-        this.back = dom.children.namedItem("back")
+        // this.back = dom.children.namedItem("back")
 
         this.save.onclick = this.saveData.bind(this)
-        this.back.onclick = this.backEdit.bind(this)
+        // this.back.onclick = this.backEdit.bind(this)
+        this.jsonText.oninput = ()=>{
+            this.jsonText.classList.add("edit")
+        }
+        this.jsonText.onchange = ()=>{
+            this.jsonText.classList.remove("edit")
+            this.jsonText.classList.add("changed")
+        }
+        this.jsonText.onblur = ()=>{
+            if(this.jsonText.classList.contains("edit")){
+                this.jsonText.classList.remove("edit");
+            }
+        }
 
     }
 
@@ -20,13 +33,15 @@ class Editor {
         this.timer.clearEvents()
         let lines = this.jsonText.value.split("\n")
         for (let i in lines) {
-            let line = lines[i].split(", ")
+            let line = lines[i].split(" ")
             let time = line[0]
             let msg = line[1]
             this.timer.addEvent(time, msg)
         }
 
         this.storage.setItem(path, this.jsonText.value)
+        this.jsonText.classList.remove("changed")
+        this.jsonText.classList.add("saved")
 
 
     }
