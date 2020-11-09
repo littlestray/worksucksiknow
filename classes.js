@@ -33,7 +33,7 @@ class Editor {
         this.timer.clearEvents()
         let lines = this.jsonText.value.split("\n")
         for (let i in lines) {
-            let line = lines[i].split(" ")
+            let line = lines[i].split(", ")
             let time = line[0]
             let msg = line[1]
             this.timer.addEvent(time, msg)
