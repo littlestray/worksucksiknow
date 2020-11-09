@@ -5,7 +5,7 @@ class Editor {
         this.path = path
 
         this.jsonText = dom.children.namedItem("jsonEditor")
-        this.jsonText.value = "1200, hello\n1300, goodbye\n1400, noway"
+        // this.jsonText.value = "1200, hello\n1300, goodbye\n1400, noway"
 
         this.save = dom.children.namedItem("save")
         this.back = dom.children.namedItem("back")
@@ -16,29 +16,34 @@ class Editor {
     }
 
     saveData() {
-
+        Notification.requestPermission()
+        this.timer.clearEvents()
         let lines = this.jsonText.value.split("\n")
         for (let i in lines) {
-            let line = lines[i].split(",")
+            let line = lines[i].split(", ")
             let time = line[0]
             let msg = line[1]
-            console.log(`timer ${i} @ ${time} msg: ${msg}`)
+            this.timer.addEvent(time, msg)
         }
+
+        this.storage.setItem(path, this.jsonText.value)
 
 
     }
     backEdit() {
         console.log(this.back)
     }
-    setTimers(data) {
 
+    set text(text) {
+        this.jsonText.value = text
+        this.saveData()
     }
 }
 
 class Timer {
 
-    constructor(clock) {
-        this.clock = clock
+    constructor() {
+
         this.events = []
     }
 
@@ -49,6 +54,32 @@ class Timer {
     addEvent(time, msg) {
         this.events.push(new Event(time, msg))
     }
+
+    getEvents() {
+        return this.events
+    }
+
+    clearEvents() {
+        this.events = []
+    }
+
+    check() {
+        let output = []
+        let time = new Date()
+        let hour = time.getHours()
+        let min = time.getMinutes()
+        for (let i in this.events) {
+            if (parseInt(hour) === parseInt(this.events[i].time.substring(0, 2))
+                && 
+                parseInt(min) === parseInt(this.events[i].time.substring(2, 4))
+                && 
+                !this.events[i].isDone) {
+                this.events[i].isDone = true;
+                output.push(this.events[i])
+            }
+        }
+        return output
+    }
 }
 
 class Event {
@@ -57,4 +88,5 @@ class Event {
         this.msg = msg
         this.isDone = false
     }
+
 }

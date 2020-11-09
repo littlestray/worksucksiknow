@@ -1,29 +1,40 @@
-console.log("main.js")
-
 let path = window.location + window.path
-let currentTime = new Date()
-
 let clock, editor
 
 console.log(path)
 
 
 function init() {
-    console.log("init")
-    clock  = document.getElementById("clock")
-    editor = new Editor(new Timer(clock), document.getElementById("editor"), window.localStorage, path)
+
+    clock = document.getElementById("clock")
+    editor = new Editor(
+        new Timer(),
+        document.getElementById("editor"),
+        window.localStorage,
+        path)
+
+    if (window.localStorage.getItem(path)) {
+        editor.text = window.localStorage.getItem(path)
+    }
+
     return window.requestAnimationFrame(gameLoop)
 }
 
 function update() {
+    let dueEvents = editor.timer.check()
+    if (dueEvents.length > 0) {
 
-    currentTime = new Date()
+        for (let i in dueEvents) {
+            console.log(`push this msg: ${dueEvents[i].msg}`)
+            let temp = new Notification(dueEvents[i].msg)
+        }
+
+    }
+    //
 }
 
 function draw() {
-
-
-    clock.innerHTML = currentTime.toString()
+    clock.innerHTML = new Date().toString()
 }
 
 
